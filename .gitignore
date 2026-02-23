@@ -1,0 +1,5 @@
+*.psd
+*.tmp
+.DS_Store
+Thumbs.db
+dice-site/

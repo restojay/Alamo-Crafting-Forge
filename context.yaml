@@ -1,0 +1,110 @@
+Alamo Crafting Forge — Project Roadmap & Context
+
+1. Project Overview
+
+Two Fully-Isolated Microsites
+
+Dice Site (dice.alamocraftingforge.com): Custom gaming dice store & 3D-master print service
+
+Dental Site (dental.alamocraftingforge.com): Precision 3D printing solutions for dental professionals
+
+Each site lives in its own codebase, repository, CI/CD pipeline, and DNS record.
+
+2. Objectives
+
+Total Separation: Zero UI or routing overlap, independent navigation, analytics, and content.
+
+Brand Consistency: Shared design tokens (colors, typography, logo) across both microsites.
+
+Scalable Foundation: Easy to extend with product pages, forms, galleries, and e‑commerce or quote flows.
+
+Rapid Deployment: Automated builds, previews, and SSL/CDN via Vercel (or Netlify).
+
+3. Tech Stack & Tools
+
+Framework: Next.js (v14) for React-based SSG/SSR with file-system routing
+
+Styling: Tailwind CSS (v3) with custom color palette
+
+Language: JavaScript (ES6+) on both front-end and build scripts
+
+Bundler: Vercel (recommended) or Netlify for CI/CD, previews, and automatic HTTPS
+
+Version Control: GitHub—one repo per microsite
+
+DNS: CNAME entries for subdomains
+
+Optional Enhancements:
+
+TypeScript migration for type safety
+
+Shared component library (via npm package or monorepo tooling)
+
+Headless CMS (Contentful, Sanity) for dynamic content
+
+Commerce integration (Shopify Buy SDK, Snipcart) or custom API
+
+4. Repository Structure
+
+alamo-crafting-forge/
+├── dice-site/      # Repo: alamo-dice-site
+│   ├── pages/      # Next.js pages
+│   ├── components/ # Layout, NavDice, Footer
+│   ├── public/     # Alamo_Logo.png
+│   ├── styles/     # globals.css (Tailwind directives)
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
+│   └── package.json
+└── dental-site/    # Repo: alamo-dental-site
+    ├── pages/      # Next.js pages
+    ├── components/ # Layout, NavDental, Footer
+    ├── public/     # Alamo_Logo.png
+    ├── styles/     # globals.css
+    ├── tailwind.config.js
+    ├── postcss.config.js
+    └── package.json
+
+5. Local Development Workflow
+
+Clone & Install
+
+git clone <repo-url-for-dice-site>
+cd dice-site
+npm install
+npm run dev     # localhost:3000
+
+Dental Site
+
+git clone <repo-url-for-dental-site>
+cd dental-site
+npm install
+PORT=3001 npm run dev  # localhost:3001
+
+6. Deployment & Hosting
+
+Vercel Setup
+
+Import each GitHub repo into Vercel
+
+Assign subdomains dice.alamocraftingforge.com and dental.alamocraftingforge.com
+
+Vercel issues SSL certs & global CDN
+
+DNS Configuration
+
+dice   CNAME cname.vercel-dns.com.
+dental CNAME cname.vercel-dns.com.
+
+7. Next Steps & Roadmap
+
+Homepage Completion: Finalize copy, hero imagery, and CTAs
+
+Landing Pages: Build product/service detail pages, galleries, and forms
+
+E‑Commerce / Quote Flow: Integrate Shopify Buy SDK or custom API for ordering and master uploads
+
+CMS Integration: Hook up a headless CMS for dynamic content management
+
+Analytics & SEO: Add Meta tags, sitemap, Google Analytics, and Search Console monitoring
+
+Performance Optimization: Image optimization, code-splitting, and Lighthouse audits
