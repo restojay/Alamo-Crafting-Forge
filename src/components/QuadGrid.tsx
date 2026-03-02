@@ -138,12 +138,8 @@ export function QuadGrid() {
 
       {/* Mobile: stacked panels — shorter default, expand on tap */}
       <div
-        className="md:hidden"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          paddingTop: "64px",
-        }}
+        className="flex flex-col md:hidden"
+        style={{ paddingTop: "64px" }}
       >
         {brands.map((brand) => (
           <div
