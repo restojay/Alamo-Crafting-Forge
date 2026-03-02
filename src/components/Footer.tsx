@@ -5,9 +5,9 @@ import { Mail, MapPin, ArrowUpRight } from "lucide-react";
 const CURRENT_YEAR = 2026;
 
 const footerLinks = [
-  { label: "Our Brands", href: "#brands" },
-  { label: "The Process", href: "#process" },
+  { label: "Brands", href: "#portfolio" },
   { label: "About", href: "#about" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export function Footer() {

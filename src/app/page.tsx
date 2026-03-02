@@ -1,13 +1,13 @@
-import { QuadGrid } from "@/components/QuadGrid";
-import { ProcessSection } from "@/components/ProcessSection";
+import { Hero } from "@/components/Hero";
+import { PortfolioSection } from "@/components/PortfolioSection";
 import { AboutSection } from "@/components/AboutSection";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
     <main>
-      <QuadGrid />
-      <ProcessSection />
+      <Hero />
+      <PortfolioSection />
       <AboutSection />
       <Footer />
     </main>

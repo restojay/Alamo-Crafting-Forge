@@ -5,8 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { label: "Our Brands", href: "#brands" },
-  { label: "The Process", href: "#process" },
+  { label: "Brands", href: "#portfolio" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ];
@@ -39,7 +38,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
         {/* Logo wordmark */}
         <a
-          href="#brands"
+          href="#hero"
           className="flex items-center gap-3 group"
           style={{ textDecoration: "none" }}
         >
@@ -69,7 +68,7 @@ export function Navbar() {
               fontSize: "11px",
               letterSpacing: "0.2em",
               textTransform: "uppercase",
-              color: "var(--text-secondary)",
+              color: "var(--text-primary)",
             }}
           >
             Alamo Crafting Forge

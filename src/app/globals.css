@@ -62,7 +62,7 @@
 }
 
 /* ============================================================
-   Semantic Component Classes (deterministic, no dynamic strings)
+   Semantic Component Classes
    ============================================================ */
 
 @layer components {
@@ -92,105 +92,6 @@
     z-index: 0;
   }
 
-  /* --- Blueprint Grid Pattern --- */
-  .blueprint-grid {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    background-image:
-      linear-gradient(rgba(249, 115, 22, 0.12) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(249, 115, 22, 0.12) 1px, transparent 1px),
-      linear-gradient(rgba(249, 115, 22, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(249, 115, 22, 0.04) 1px, transparent 1px);
-    background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
-    mix-blend-mode: hard-light;
-    z-index: 2;
-  }
-
-  .blueprint-grid.active {
-    opacity: 1;
-  }
-
-  /* --- Quad Hero Grid (CSS Grid for true 60/40 expansion) --- */
-  .quad-hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    flex: 1;
-    min-height: 0;
-    position: relative;
-    z-index: 1;
-    transition: grid-template-columns 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
-                grid-template-rows 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
-  }
-
-  /* Expansion states — hovered column expands, hovered row expands */
-  .quad-hero-grid[data-hover-col="left"] {
-    grid-template-columns: 1.6fr 0.4fr;
-  }
-  .quad-hero-grid[data-hover-col="right"] {
-    grid-template-columns: 0.4fr 1.6fr;
-  }
-  .quad-hero-grid[data-hover-row="top"] {
-    grid-template-rows: 1.6fr 0.4fr;
-  }
-  .quad-hero-grid[data-hover-row="bottom"] {
-    grid-template-rows: 0.4fr 1.6fr;
-  }
-
-  /* --- Quad Card Base --- */
-  .quad-card {
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    transition: opacity 0.5s ease;
-  }
-
-  .quad-card.dimmed {
-    opacity: 0.5;
-  }
-
-  .quad-card:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: -2px;
-    z-index: 20;
-  }
-
-  /* --- Quad Backgrounds — all warm ember tones, no rainbow --- */
-  .quad-bg-dice {
-    background: linear-gradient(135deg, #1a1008 0%, #110d08 40%, #0a0a0a 100%);
-  }
-
-  .quad-bg-forgepoint {
-    background: linear-gradient(135deg, #1a1510 0%, #12100d 40%, #0a0a0a 100%);
-  }
-
-  .quad-bg-realmforge {
-    background: linear-gradient(135deg, #15120a 0%, #0f0d08 40%, #0a0a0a 100%);
-  }
-
-  .quad-bg-designs {
-    background: linear-gradient(135deg, #13110d 0%, #0d0c08 40%, #0a0a0a 100%);
-  }
-
-  /* --- Thermal Bloom (ember glow on hover) --- */
-  .thermal-bloom {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.8s ease;
-    background: radial-gradient(ellipse at 30% 70%, rgba(249, 115, 22, 0.15) 0%, transparent 60%);
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  .quad-card:hover .thermal-bloom,
-  .quad-card:focus-within .thermal-bloom {
-    opacity: 1;
-  }
-
   /* --- Section Divider --- */
   .section-divider {
     border-top: 1px solid var(--border);
@@ -218,13 +119,13 @@
     color: var(--text-tertiary);
   }
 
-  /* --- Nav Link (replaces JS hover mutation) --- */
+  /* --- Nav Link --- */
   .nav-link {
     font-family: var(--font-geist-mono), monospace;
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--text-tertiary);
+    color: var(--text-primary);
     background: none;
     border: none;
     cursor: pointer;
@@ -235,10 +136,10 @@
 
   .nav-link:hover,
   .nav-link:focus-visible {
-    color: var(--text-primary);
+    color: var(--accent);
   }
 
-  /* --- Footer Link (replaces JS hover mutation) --- */
+  /* --- Footer Link --- */
   .footer-link {
     font-size: 13px;
     color: var(--text-tertiary);
@@ -269,7 +170,7 @@
     color: var(--accent);
   }
 
-  /* --- CTA Outline Button (footer) --- */
+  /* --- CTA Outline Button --- */
   .btn-outline {
     display: inline-flex;
     align-items: center;
@@ -329,7 +230,34 @@
     box-shadow: 0 0 30px var(--accent-glow);
   }
 
-  /* --- Capability Card (Process section) --- */
+  /* --- Brand Card --- */
+  .brand-card {
+    background: var(--base-raised);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    transition:
+      transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.5s ease,
+      box-shadow 0.5s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .brand-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--border-strong);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.4),
+      0 0 20px var(--accent-subtle);
+  }
+
+  .brand-card:hover img {
+    filter: brightness(0.95) saturate(1) !important;
+    transform: scale(1.03);
+    transition: filter 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  /* --- Capability Card (compact strip) --- */
   .cap-card {
     background: var(--base);
     padding: clamp(28px, 3vw, 40px);
@@ -349,15 +277,11 @@
   50% { opacity: 0.06; }
 }
 
-@keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
-}
-
-@keyframes fadeInUp {
+/* --- Hero entrance: slide down from above (matches navbar motion) --- */
+@keyframes heroSlideDown {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(-30px);
   }
   to {
     opacity: 1;
@@ -365,10 +289,56 @@
   }
 }
 
-@keyframes typeIn {
-  from { width: 0; }
-  to { width: 100%; }
+/* --- Smooth scroll entrance: fade + rise + subtle scale --- */
+@keyframes scrollReveal {
+  from {
+    opacity: 0;
+    transform: translateY(32px) scale(0.98);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
+
+/* --- Gentle scroll indicator bob --- */
+@keyframes scrollBob {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
+  50% { transform: translateX(-50%) translateY(6px); opacity: 0.7; }
+}
+
+/* --- Hero element slide-down with stagger --- */
+.hero-animate {
+  animation: heroSlideDown 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+.hero-animate-1 { animation-delay: 0.1s; }
+.hero-animate-2 { animation-delay: 0.2s; }
+.hero-animate-3 { animation-delay: 0.3s; }
+.hero-animate-4 { animation-delay: 0.4s; }
+.hero-animate-5 { animation-delay: 0.5s; }
+.hero-animate-6 { animation-delay: 0.6s; }
+.hero-animate-7 { animation-delay: 0.75s; }
+
+/* --- Scroll indicator pulse --- */
+.scroll-indicator {
+  animation: scrollBob 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* --- Scroll-triggered entrance animations (CSS, no hydration dependency) --- */
+.pre-animate {
+  opacity: 0;
+  transform: translateY(32px) scale(0.98);
+}
+
+.scroll-fade-in {
+  animation: scrollReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.scroll-stagger-1 { animation-delay: 0.15s; }
+.scroll-stagger-2 { animation-delay: 0.3s; }
 
 /* ============================================================
    Reduced Motion — Accessibility
@@ -386,5 +356,14 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .pre-animate {
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-video {
+    display: none;
   }
 }
