@@ -1,31 +1,218 @@
 @import "tailwindcss";
 
-:root {
-  --base: #121212;
-  --secondary: #475569;
-  --accent: #F97316;
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --glass-bg: rgba(18, 18, 18, 0.8);
-  --glass-border: rgba(71, 85, 105, 0.3);
-  --font-geist-sans: var(--font-geist-sans);
-  --font-geist-mono: var(--font-geist-mono);
+/* ============================================================
+   ACF Design System — "Cold Steel & Ember"
+   Industrial Minimalist · Dark Mode Only
+   ============================================================ */
+
+@layer base {
+  :root {
+    --base: #0a0a0a;
+    --base-raised: #111111;
+    --base-elevated: #1a1a1a;
+    --surface: #141414;
+    --border: rgba(255, 255, 255, 0.06);
+    --border-strong: rgba(255, 255, 255, 0.12);
+    --accent: #F97316;
+    --accent-muted: rgba(249, 115, 22, 0.15);
+    --accent-subtle: rgba(249, 115, 22, 0.06);
+    --accent-glow: rgba(249, 115, 22, 0.4);
+    --text-primary: #FAFAFA;
+    --text-secondary: #737373;
+    --text-tertiary: #525252;
+    --glass-bg: rgba(10, 10, 10, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --ember-warm: #FF8C42;
+    --steel-cold: #2A2A2E;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--base);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--base);
+  }
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* ============================================================
+   Semantic Component Classes (deterministic, no dynamic strings)
+   ============================================================ */
+
+@layer components {
+  /* --- Noise Texture Overlay --- */
+  .noise-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+    mix-blend-mode: overlay;
+    z-index: 1;
+  }
+
+  /* --- Blueprint Grid Pattern --- */
+  .blueprint-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    background-image:
+      linear-gradient(rgba(249, 115, 22, 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(249, 115, 22, 0.12) 1px, transparent 1px),
+      linear-gradient(rgba(249, 115, 22, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(249, 115, 22, 0.04) 1px, transparent 1px);
+    background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+    z-index: 2;
+  }
+
+  .blueprint-grid.active {
+    opacity: 1;
+  }
+
+  /* --- Quad Card Base --- */
+  .quad-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: flex 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    flex: 1;
+  }
+
+  .quad-card.expanded {
+    flex: 1.8;
+  }
+
+  .quad-card.dimmed {
+    flex: 0.7;
+  }
+
+  /* --- Quad Backgrounds (static, deterministic) --- */
+  .quad-bg-dice {
+    background: linear-gradient(135deg, #1a0f2e 0%, #0d0d1a 40%, #0a0a0a 100%);
+  }
+
+  .quad-bg-forgepoint {
+    background: linear-gradient(135deg, #1a1510 0%, #12100d 40%, #0a0a0a 100%);
+  }
+
+  .quad-bg-realmforge {
+    background: linear-gradient(135deg, #0d1a15 0%, #0a1210 40%, #0a0a0a 100%);
+  }
+
+  .quad-bg-designs {
+    background: linear-gradient(135deg, #0f1520 0%, #0a0f15 40%, #0a0a0a 100%);
+  }
+
+  /* --- Section Divider --- */
+  .section-divider {
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+
+  .section-divider::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  /* --- Spec Label --- */
+  .spec-label {
+    font-family: var(--font-geist-mono), monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  /* --- Accent Button --- */
+  .btn-accent {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background-color: var(--accent);
+    color: var(--base);
+    border: none;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-accent::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .btn-accent:hover::after {
+    opacity: 1;
+  }
+
+  .btn-accent:hover {
+    box-shadow: 0 0 30px var(--accent-glow);
+  }
 }
 
-body {
-  background-color: var(--base);
-  color: var(--text-primary);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-  overflow-x: hidden;
+/* ============================================================
+   Ambient Animations
+   ============================================================ */
+
+@keyframes subtlePulse {
+  0%, 100% { opacity: 0.03; }
+  50% { opacity: 0.06; }
 }
 
-::selection {
-  background-color: var(--accent);
-  color: var(--base);
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes typeIn {
+  from { width: 0; }
+  to { width: 100%; }
 }
