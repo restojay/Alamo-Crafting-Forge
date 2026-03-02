@@ -19,7 +19,7 @@
     --accent-glow: rgba(249, 115, 22, 0.4);
     --text-primary: #FAFAFA;
     --text-secondary: #737373;
-    --text-tertiary: #525252;
+    --text-tertiary: #6b6b6b;
     --glass-bg: rgba(10, 10, 10, 0.85);
     --glass-border: rgba(255, 255, 255, 0.08);
     --ember-warm: #FF8C42;
@@ -48,6 +48,17 @@
     background-color: var(--accent);
     color: var(--base);
   }
+
+  /* Focus-visible for keyboard navigation */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Scroll offset for fixed navbar */
+  [id] {
+    scroll-margin-top: 80px;
+  }
 }
 
 /* ============================================================
@@ -68,6 +79,19 @@
     z-index: 1;
   }
 
+  /* --- Steel Texture (subtle metallic grain) --- */
+  .steel-texture {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.02;
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.4' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 512px 512px;
+    z-index: 0;
+  }
+
   /* --- Blueprint Grid Pattern --- */
   .blueprint-grid {
     position: absolute;
@@ -81,6 +105,7 @@
       linear-gradient(rgba(249, 115, 22, 0.04) 1px, transparent 1px),
       linear-gradient(90deg, rgba(249, 115, 22, 0.04) 1px, transparent 1px);
     background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+    mix-blend-mode: hard-light;
     z-index: 2;
   }
 
@@ -88,26 +113,54 @@
     opacity: 1;
   }
 
+  /* --- Quad Hero Grid (CSS Grid for true 60/40 expansion) --- */
+  .quad-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    flex: 1;
+    min-height: 0;
+    position: relative;
+    z-index: 1;
+    transition: grid-template-columns 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+                grid-template-rows 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  /* Expansion states — hovered column expands, hovered row expands */
+  .quad-hero-grid[data-hover-col="left"] {
+    grid-template-columns: 1.6fr 0.4fr;
+  }
+  .quad-hero-grid[data-hover-col="right"] {
+    grid-template-columns: 0.4fr 1.6fr;
+  }
+  .quad-hero-grid[data-hover-row="top"] {
+    grid-template-rows: 1.6fr 0.4fr;
+  }
+  .quad-hero-grid[data-hover-row="bottom"] {
+    grid-template-rows: 0.4fr 1.6fr;
+  }
+
   /* --- Quad Card Base --- */
   .quad-card {
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    transition: flex 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
-    flex: 1;
-  }
-
-  .quad-card.expanded {
-    flex: 1.8;
+    transition: opacity 0.5s ease;
   }
 
   .quad-card.dimmed {
-    flex: 0.7;
+    opacity: 0.5;
   }
 
-  /* --- Quad Backgrounds (static, deterministic) --- */
+  .quad-card:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+    z-index: 20;
+  }
+
+  /* --- Quad Backgrounds — all warm ember tones, no rainbow --- */
   .quad-bg-dice {
-    background: linear-gradient(135deg, #1a0f2e 0%, #0d0d1a 40%, #0a0a0a 100%);
+    background: linear-gradient(135deg, #1a1008 0%, #110d08 40%, #0a0a0a 100%);
   }
 
   .quad-bg-forgepoint {
@@ -115,11 +168,27 @@
   }
 
   .quad-bg-realmforge {
-    background: linear-gradient(135deg, #0d1a15 0%, #0a1210 40%, #0a0a0a 100%);
+    background: linear-gradient(135deg, #15120a 0%, #0f0d08 40%, #0a0a0a 100%);
   }
 
   .quad-bg-designs {
-    background: linear-gradient(135deg, #0f1520 0%, #0a0f15 40%, #0a0a0a 100%);
+    background: linear-gradient(135deg, #13110d 0%, #0d0c08 40%, #0a0a0a 100%);
+  }
+
+  /* --- Thermal Bloom (ember glow on hover) --- */
+  .thermal-bloom {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    background: radial-gradient(ellipse at 30% 70%, rgba(249, 115, 22, 0.15) 0%, transparent 60%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .quad-card:hover .thermal-bloom,
+  .quad-card:focus-within .thermal-bloom {
+    opacity: 1;
   }
 
   /* --- Section Divider --- */
@@ -143,10 +212,84 @@
   /* --- Spec Label --- */
   .spec-label {
     font-family: var(--font-geist-mono), monospace;
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--text-tertiary);
+  }
+
+  /* --- Nav Link (replaces JS hover mutation) --- */
+  .nav-link {
+    font-family: var(--font-geist-mono), monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 16px;
+    transition: color 0.3s ease;
+    text-decoration: none;
+  }
+
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    color: var(--text-primary);
+  }
+
+  /* --- Footer Link (replaces JS hover mutation) --- */
+  .footer-link {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.3s ease;
+  }
+
+  .footer-link:hover,
+  .footer-link:focus-visible {
+    color: var(--text-primary);
+  }
+
+  .footer-email {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-tertiary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-email:hover,
+  .footer-email:focus-visible {
+    color: var(--accent);
+  }
+
+  /* --- CTA Outline Button (footer) --- */
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-geist-mono), monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    background: transparent;
+  }
+
+  .btn-outline:hover,
+  .btn-outline:focus-visible {
+    background: var(--accent);
+    color: var(--base);
   }
 
   /* --- Accent Button --- */
@@ -185,6 +328,16 @@
   .btn-accent:hover {
     box-shadow: 0 0 30px var(--accent-glow);
   }
+
+  /* --- Capability Card (Process section) --- */
+  .cap-card {
+    background: var(--base);
+    padding: clamp(28px, 3vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+  }
 }
 
 /* ============================================================
@@ -215,4 +368,23 @@
 @keyframes typeIn {
   from { width: 0; }
   to { width: 100%; }
+}
+
+/* ============================================================
+   Reduced Motion — Accessibility
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

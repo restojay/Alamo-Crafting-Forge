@@ -103,7 +103,7 @@ export function AboutSection() {
         >
           {[
             { value: "4", label: "Brands" },
-            { value: "2", label: "Printers" },
+            { value: "25μm", label: "Precision" },
             { value: "1", label: "Standard" },
           ].map((stat) => (
             <div key={stat.label} style={{ textAlign: "center" }}>

@@ -2,6 +2,8 @@
 
 import { Mail, MapPin, ArrowUpRight } from "lucide-react";
 
+const CURRENT_YEAR = 2026;
+
 const footerLinks = [
   { label: "Our Brands", href: "#brands" },
   { label: "The Process", href: "#process" },
@@ -63,21 +65,7 @@ export function Footer() {
               </div>
               <a
                 href="mailto:contact@alamocraftingforge.com"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  fontSize: "13px",
-                  color: "var(--text-tertiary)",
-                  textDecoration: "none",
-                  transition: "color 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.color = "var(--accent)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.color = "var(--text-tertiary)";
-                }}
+                className="footer-email"
               >
                 <Mail size={12} />
                 <span>contact@alamocraftingforge.com</span>
@@ -95,21 +83,7 @@ export function Footer() {
                 <a
                   key={link.href}
                   href={link.href}
-                  style={{
-                    fontSize: "13px",
-                    color: "var(--text-tertiary)",
-                    textDecoration: "none",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "4px",
-                    transition: "color 0.3s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = "var(--text-tertiary)";
-                  }}
+                  className="footer-link"
                 >
                   {link.label}
                 </a>
@@ -124,28 +98,7 @@ export function Footer() {
             </span>
             <a
               href="mailto:contact@alamocraftingforge.com"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                fontFamily: "var(--font-geist-mono), monospace",
-                fontSize: "12px",
-                letterSpacing: "0.06em",
-                color: "var(--accent)",
-                textDecoration: "none",
-                padding: "8px 16px",
-                border: "1px solid var(--accent)",
-                borderRadius: "2px",
-                transition: "all 0.3s ease",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "var(--accent)";
-                (e.currentTarget as HTMLElement).style.color = "var(--base)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "transparent";
-                (e.currentTarget as HTMLElement).style.color = "var(--accent)";
-              }}
+              className="btn-outline"
             >
               Get in Touch
               <ArrowUpRight size={12} />
@@ -174,7 +127,7 @@ export function Footer() {
               color: "var(--text-tertiary)",
             }}
           >
-            &copy; {new Date().getFullYear()} Alamo Crafting Forge LLC
+            &copy; {CURRENT_YEAR} Alamo Crafting Forge LLC
           </span>
           <span
             style={{

@@ -30,7 +30,7 @@ export const brands: Brand[] = [
     image: "/brands/forgepoint.jpg",
     blueprintMeta: ["Material: CF-PETG", "Infill: 100%", "Fitment: ±0.1mm"],
     ctaLabel: "Enter Storefront",
-    ctaHref: "https://forgepoint.alamocraftingforge.com",
+    ctaHref: "https://www.ebay.com/str/forgepoint",
     position: "top-right",
   },
   {
@@ -41,7 +41,7 @@ export const brands: Brand[] = [
     image: "/brands/realmforge.jpg",
     blueprintMeta: ["Material: Tough 2000", "Layer: 50μm", "Build: 218×128mm"],
     ctaLabel: "Enter Storefront",
-    ctaHref: "https://realmforge.alamocraftingforge.com",
+    ctaHref: "https://www.ebay.com/str/realmforge",
     position: "bottom-left",
   },
   {

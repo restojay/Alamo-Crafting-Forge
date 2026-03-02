@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import type { Brand } from "@/lib/brands";
 
 interface QuadCardProps {
@@ -18,13 +19,6 @@ const bgClass: Record<string, string> = {
   "acf-designs": "quad-bg-designs",
 };
 
-const accentColors: Record<string, string> = {
-  "acf-dice": "#8B5CF6",
-  forgepoint: "#D97706",
-  realmforge: "#059669",
-  "acf-designs": "#3B82F6",
-};
-
 export function QuadCard({
   brand,
   isExpanded,
@@ -32,28 +26,62 @@ export function QuadCard({
   onHover,
   onLeave,
 }: QuadCardProps) {
-  const accent = accentColors[brand.id] || "var(--accent)";
-
   return (
     <div
-      className={`quad-card ${bgClass[brand.id] || ""} ${isExpanded ? "expanded" : ""} ${isDimmed ? "dimmed" : ""}`}
+      className={`quad-card ${bgClass[brand.id] || ""} ${isDimmed ? "dimmed" : ""}`}
+      tabIndex={0}
+      role="button"
+      aria-expanded={isExpanded}
+      aria-label={`${brand.name} — ${brand.tagline}`}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
+      onFocus={onHover}
+      onBlur={onLeave}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          if (isExpanded && brand.ctaHref) {
+            window.open(brand.ctaHref, "_blank", "noopener,noreferrer");
+          } else {
+            onHover();
+          }
+        }
+        if (e.key === "Escape") {
+          onLeave();
+        }
+      }}
     >
-      {/* Noise texture */}
-      <div className="noise-overlay" />
-
-      {/* Ambient glow — unique per brand */}
+      {/* Product image — full bleed with dark overlay */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          opacity: isExpanded ? 0.12 : 0.04,
-          transition: "opacity 0.8s ease",
-          background: `radial-gradient(ellipse at 30% 70%, ${accent}33 0%, transparent 60%)`,
-          zIndex: 1,
+          zIndex: 0,
         }}
-      />
+      >
+        <Image
+          src={brand.image}
+          alt={brand.name}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover"
+          style={{
+            filter: isExpanded ? "brightness(0.35) saturate(1.1)" : "brightness(0.15) saturate(0.7)",
+            transition: "filter 0.8s ease, transform 8s ease",
+            transform: isExpanded ? "scale(1.05)" : "scale(1)",
+          }}
+          priority={brand.position.startsWith("top")}
+        />
+      </div>
+
+      {/* Steel texture */}
+      <div className="steel-texture" />
+
+      {/* Noise texture */}
+      <div className="noise-overlay" />
+
+      {/* Thermal bloom — ember glow on hover */}
+      <div className="thermal-bloom" />
 
       {/* Blueprint grid */}
       <div className={`blueprint-grid ${isExpanded ? "active" : ""}`} />
@@ -75,7 +103,7 @@ export function QuadCard({
               left: 0,
               right: 0,
               height: "1px",
-              background: `linear-gradient(90deg, transparent 0%, ${accent}40 50%, transparent 100%)`,
+              background: "linear-gradient(90deg, transparent 0%, rgba(249, 115, 22, 0.3) 50%, transparent 100%)",
               animation: "scanline 4s linear infinite",
             }}
           />
@@ -90,8 +118,8 @@ export function QuadCard({
           left: "20px",
           width: "16px",
           height: "16px",
-          borderTop: `1px solid ${isExpanded ? accent : "var(--border)"}`,
-          borderLeft: `1px solid ${isExpanded ? accent : "var(--border)"}`,
+          borderTop: `1px solid ${isExpanded ? "var(--accent)" : "var(--border)"}`,
+          borderLeft: `1px solid ${isExpanded ? "var(--accent)" : "var(--border)"}`,
           transition: "border-color 0.5s ease",
           zIndex: 10,
         }}
@@ -103,8 +131,8 @@ export function QuadCard({
           right: "20px",
           width: "16px",
           height: "16px",
-          borderBottom: `1px solid ${isExpanded ? accent : "var(--border)"}`,
-          borderRight: `1px solid ${isExpanded ? accent : "var(--border)"}`,
+          borderBottom: `1px solid ${isExpanded ? "var(--accent)" : "var(--border)"}`,
+          borderRight: `1px solid ${isExpanded ? "var(--accent)" : "var(--border)"}`,
           transition: "border-color 0.5s ease",
           zIndex: 10,
         }}
@@ -121,7 +149,7 @@ export function QuadCard({
           fontSize: "9px",
           letterSpacing: "0.15em",
           textTransform: "uppercase",
-          color: isExpanded ? accent : "var(--text-tertiary)",
+          color: isExpanded ? "var(--accent)" : "var(--text-tertiary)",
           opacity: isExpanded ? 0.8 : 0.3,
           transition: "all 0.5s ease",
         }}
@@ -134,7 +162,7 @@ export function QuadCard({
         style={{
           position: "absolute",
           inset: "12px",
-          border: `1px solid ${isExpanded ? `${accent}20` : "var(--border)"}`,
+          border: `1px solid ${isExpanded ? "rgba(249, 115, 22, 0.12)" : "var(--border)"}`,
           borderRadius: "1px",
           transition: "border-color 0.5s ease",
           zIndex: 3,
@@ -199,7 +227,7 @@ export function QuadCard({
           }}
           style={{ overflow: "hidden", marginTop: "16px" }}
         >
-          {/* Metadata tags */}
+          {/* Metadata tags — unified accent */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "20px" }}>
             {brand.blueprintMeta.map((meta) => (
               <span
@@ -209,9 +237,9 @@ export function QuadCard({
                   fontSize: "10px",
                   letterSpacing: "0.08em",
                   padding: "4px 10px",
-                  border: `1px solid ${accent}30`,
-                  background: `${accent}08`,
-                  color: accent,
+                  border: "1px solid rgba(249, 115, 22, 0.2)",
+                  background: "rgba(249, 115, 22, 0.05)",
+                  color: "var(--accent)",
                   borderRadius: "1px",
                 }}
               >
@@ -226,6 +254,7 @@ export function QuadCard({
             target="_blank"
             rel="noopener noreferrer"
             className="btn-accent"
+            tabIndex={isExpanded ? 0 : -1}
           >
             {brand.ctaLabel}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

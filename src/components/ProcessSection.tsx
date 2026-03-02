@@ -1,29 +1,72 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Layers, Cpu, PenTool, Globe } from "lucide-react";
+
+/* Sharp, technical SVG icons — thinner strokes for precision feel */
+function IconSLA() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1">
+      <path d="M12 2L2 7l10 5 10-5-10-5z" />
+      <path d="M2 17l10 5 10-5" />
+      <path d="M2 12l10 5 10-5" />
+    </svg>
+  );
+}
+
+function IconFDM() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1">
+      <rect x="4" y="4" width="16" height="16" rx="1" />
+      <path d="M9 4v16" />
+      <path d="M15 4v16" />
+      <path d="M4 9h16" />
+      <path d="M4 15h16" />
+    </svg>
+  );
+}
+
+function IconCAD() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1">
+      <path d="M12 19l7-7 3 3-7 7-3-3z" />
+      <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+      <path d="M2 2l7.586 7.586" />
+      <circle cx="11" cy="11" r="2" />
+    </svg>
+  );
+}
+
+function IconWeb() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1">
+      <path d="M16 18l6-6-6-6" />
+      <path d="M8 6l-6 6 6 6" />
+      <path d="M14.5 4l-5 16" />
+    </svg>
+  );
+}
 
 const capabilities = [
   {
-    icon: Layers,
+    icon: IconSLA,
     label: "SLA Resin Printing",
     detail: "Formlabs 4B",
     spec: "25μm layer resolution",
   },
   {
-    icon: Cpu,
+    icon: IconFDM,
     label: "FDM Manufacturing",
     detail: "Bambu Lab P1S",
     spec: "Multi-material, high-speed",
   },
   {
-    icon: PenTool,
+    icon: IconCAD,
     label: "CAD Design",
     detail: "Fusion 360 + OpenSCAD",
     spec: "Parametric & generative",
   },
   {
-    icon: Globe,
+    icon: IconWeb,
     label: "Web Development",
     detail: "Next.js + React + Tailwind",
     spec: "Full-stack, deployed on Vercel",
@@ -41,7 +84,6 @@ export function ProcessSection() {
         background: "var(--base)",
       }}
     >
-      {/* Subtle noise */}
       <div className="noise-overlay" />
 
       <div style={{ maxWidth: "1000px", margin: "0 auto", position: "relative", zIndex: 2 }}>
@@ -90,14 +132,7 @@ export function ProcessSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              style={{
-                background: "var(--base)",
-                padding: "clamp(28px, 3vw, 40px)",
-                display: "flex",
-                flexDirection: "column",
-                gap: "16px",
-                position: "relative",
-              }}
+              className="cap-card"
             >
               {/* Index number */}
               <span
@@ -127,7 +162,7 @@ export function ProcessSection() {
                   background: "var(--accent-subtle)",
                 }}
               >
-                <cap.icon size={18} color="var(--accent)" strokeWidth={1.5} />
+                <cap.icon />
               </div>
 
               {/* Label */}

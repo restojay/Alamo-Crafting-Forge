@@ -21,18 +21,14 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const scrollTo = (href: string) => {
-    setMobileOpen(false);
-    const el = document.querySelector(href);
-    el?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <motion.nav
       initial={{ y: -80 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      role="navigation"
+      aria-label="Main navigation"
       style={{
         backgroundColor: scrolled ? "var(--glass-bg)" : "transparent",
         backdropFilter: scrolled ? "blur(20px) saturate(180%)" : "none",
@@ -43,7 +39,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
         {/* Logo wordmark */}
         <a
-          href="#"
+          href="#brands"
           className="flex items-center gap-3 group"
           style={{ textDecoration: "none" }}
         >
@@ -83,29 +79,13 @@ export function Navbar() {
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
-            <button
+            <a
               key={link.href}
-              onClick={() => scrollTo(link.href)}
-              className="px-4 py-2 transition-colors duration-300"
-              style={{
-                fontFamily: "var(--font-geist-mono), monospace",
-                fontSize: "11px",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                color: "var(--text-tertiary)",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-              }}
-              onMouseEnter={(e) => {
-                (e.target as HTMLElement).style.color = "var(--text-primary)";
-              }}
-              onMouseLeave={(e) => {
-                (e.target as HTMLElement).style.color = "var(--text-tertiary)";
-              }}
+              href={link.href}
+              className="nav-link"
             >
               {link.label}
-            </button>
+            </a>
           ))}
         </div>
 
@@ -113,6 +93,9 @@ export function Navbar() {
         <button
           className="md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-nav-menu"
           style={{
             color: "var(--text-primary)",
             background: "none",
@@ -128,10 +111,12 @@ export function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
+            id="mobile-nav-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden overflow-hidden"
+            role="menu"
             style={{
               backgroundColor: "var(--glass-bg)",
               backdropFilter: "blur(20px)",
@@ -140,27 +125,24 @@ export function Navbar() {
           >
             <div className="px-6 py-6 flex flex-col gap-1">
               {navLinks.map((link, i) => (
-                <motion.button
+                <motion.a
                   key={link.href}
+                  href={link.href}
+                  role="menuitem"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  onClick={() => scrollTo(link.href)}
-                  className="text-left py-3 transition-colors duration-300"
+                  onClick={() => setMobileOpen(false)}
+                  className="nav-link"
                   style={{
-                    fontFamily: "var(--font-geist-mono), monospace",
-                    fontSize: "12px",
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    color: "var(--text-secondary)",
-                    background: "none",
-                    border: "none",
+                    display: "block",
+                    padding: "12px 0",
                     borderBottom: "1px solid var(--border)",
-                    cursor: "pointer",
+                    fontSize: "12px",
                   }}
                 >
                   {link.label}
-                </motion.button>
+                </motion.a>
               ))}
             </div>
           </motion.div>

@@ -5,25 +5,32 @@ import { motion } from "framer-motion";
 import { brands } from "@/lib/brands";
 import { QuadCard } from "./QuadCard";
 
+const positionToGrid: Record<string, { col: "left" | "right"; row: "top" | "bottom" }> = {
+  "top-left": { col: "left", row: "top" },
+  "top-right": { col: "right", row: "top" },
+  "bottom-left": { col: "left", row: "bottom" },
+  "bottom-right": { col: "right", row: "bottom" },
+};
+
 export function QuadGrid() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const topRow = brands.filter((b) => b.position.startsWith("top"));
-  const bottomRow = brands.filter((b) => b.position.startsWith("bottom"));
+  const hoveredBrand = hoveredId ? brands.find((b) => b.id === hoveredId) : null;
+  const hoverCol = hoveredBrand ? positionToGrid[hoveredBrand.position]?.col : null;
+  const hoverRow = hoveredBrand ? positionToGrid[hoveredBrand.position]?.row : null;
 
   return (
     <section
       id="brands"
       style={{
-        height: "100vh",
         width: "100%",
-        paddingTop: "64px",
-        display: "flex",
-        flexDirection: "column",
         position: "relative",
         background: "var(--base)",
       }}
     >
+      {/* Steel texture base */}
+      <div className="steel-texture" />
+
       {/* Ambient background glow */}
       <div
         style={{
@@ -35,16 +42,20 @@ export function QuadGrid() {
         }}
       />
 
-      {/* Desktop: 2x2 grid */}
+      {/* Desktop: CSS Grid 2x2 with true 60/40 expansion */}
       <div
-        className="hidden md:flex"
-        style={{ flexDirection: "column", flex: 1, position: "relative", zIndex: 1 }}
+        className="hidden md:block"
+        style={{
+          height: "100vh",
+          paddingTop: "64px",
+          position: "relative",
+        }}
       >
         {/* Crosshair center marker */}
         <div
           style={{
             position: "absolute",
-            top: "50%",
+            top: "calc(50% + 32px)",
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: "24px",
@@ -77,11 +88,11 @@ export function QuadGrid() {
           />
         </div>
 
-        {/* Horizontal divider */}
+        {/* Grid divider lines */}
         <div
           style={{
             position: "absolute",
-            top: "50%",
+            top: "calc(50% + 32px)",
             left: 0,
             right: 0,
             height: "1px",
@@ -90,13 +101,11 @@ export function QuadGrid() {
             pointerEvents: "none",
           }}
         />
-
-        {/* Vertical divider */}
         <div
           style={{
             position: "absolute",
             left: "50%",
-            top: 0,
+            top: "64px",
             bottom: 0,
             width: "1px",
             background: "var(--border)",
@@ -105,33 +114,16 @@ export function QuadGrid() {
           }}
         />
 
-        {/* Top row */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          style={{ display: "flex", flex: 1, minHeight: 0 }}
+          className="quad-hero-grid"
+          data-hover-col={hoverCol || undefined}
+          data-hover-row={hoverRow || undefined}
+          style={{ height: "calc(100vh - 64px)" }}
         >
-          {topRow.map((brand) => (
-            <QuadCard
-              key={brand.id}
-              brand={brand}
-              isExpanded={hoveredId === brand.id}
-              isDimmed={hoveredId !== null && hoveredId !== brand.id}
-              onHover={() => setHoveredId(brand.id)}
-              onLeave={() => setHoveredId(null)}
-            />
-          ))}
-        </motion.div>
-
-        {/* Bottom row */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          style={{ display: "flex", flex: 1, minHeight: 0 }}
-        >
-          {bottomRow.map((brand) => (
+          {brands.map((brand) => (
             <QuadCard
               key={brand.id}
               brand={brand}
@@ -144,12 +136,23 @@ export function QuadGrid() {
         </motion.div>
       </div>
 
-      {/* Mobile: stacked panels */}
-      <div className="md:hidden" style={{ display: "flex", flexDirection: "column" }}>
+      {/* Mobile: stacked panels — shorter default, expand on tap */}
+      <div
+        className="md:hidden"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          paddingTop: "64px",
+        }}
+      >
         {brands.map((brand) => (
           <div
             key={brand.id}
-            style={{ height: "75vh" }}
+            style={{
+              height: hoveredId === brand.id ? "80vh" : "30vh",
+              transition: "height 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)",
+              position: "relative",
+            }}
             onClick={() =>
               setHoveredId(hoveredId === brand.id ? null : brand.id)
             }
