@@ -14,8 +14,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alamo Crafting Forge",
-  description: "Precision Manufacturing & Design",
+  title: "Alamo Crafting Forge — Precision Manufacturing & Design",
+  description:
+    "San Antonio-based manufacturing and design studio. Precision 3D-printed dice, firearm accessories, tabletop miniatures, and full-service web development.",
+  keywords: [
+    "3D printing", "custom dice", "firearm accessories", "tabletop miniatures",
+    "web development", "San Antonio", "Alamo Crafting Forge",
+  ],
+  openGraph: {
+    title: "Alamo Crafting Forge",
+    description: "Precision Manufacturing & Design — San Antonio, TX",
+    url: "https://alamocraftingforge.com",
+    siteName: "Alamo Crafting Forge",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
