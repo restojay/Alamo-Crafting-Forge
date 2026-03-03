@@ -2,7 +2,7 @@
 
 // Database
 export { ServiceBotDatabase } from "./db/database";
-export type { Ticket, Task, TaskState, Draft, Contact, AuditEntry, TicketStatus, Urgency, WebhookAttempt } from "./db/types";
+export type { Ticket, Task, TaskState, Draft, Contact, AuditEntry, TicketStatus, Urgency, WebhookAttempt, Subsidiary } from "./db/types";
 
 // Email
 export { parseEmail, parseEmailAddress } from "./email/parser/email-parser";

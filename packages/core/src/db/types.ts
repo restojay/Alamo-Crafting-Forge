@@ -75,3 +75,10 @@ export interface AuditEntry {
   payloadJson: string;
   createdAt: string;
 }
+
+export interface Subsidiary {
+  id: string;
+  name: string;
+  configJson: string;
+  createdAt: string;
+}

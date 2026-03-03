@@ -1,4 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { join } from "path";
+import { tmpdir } from "os";
+import { randomUUID } from "crypto";
 import { ServiceBotDatabase } from "../../src/db/database.js";
 import type {
   Ticket,
@@ -253,5 +256,33 @@ describe("ServiceBotDatabase", () => {
   it("close() succeeds without error", () => {
     const db2 = new ServiceBotDatabase(":memory:");
     expect(() => db2.close()).not.toThrow();
+  });
+});
+
+describe("subsidiaries", () => {
+  let db: ServiceBotDatabase;
+  beforeEach(() => {
+    db = new ServiceBotDatabase(join(tmpdir(), `test-${randomUUID()}.db`));
+  });
+  afterEach(() => db.close());
+
+  it("saves and lists a subsidiary", () => {
+    db.saveSubsidiary({ id: "acf-hvac", name: "Sunny HVAC", configJson: "{}", createdAt: "2026-01-01T00:00:00Z" });
+    const list = db.listSubsidiaries();
+    expect(list).toHaveLength(1);
+    expect(list[0].id).toBe("acf-hvac");
+    expect(list[0].name).toBe("Sunny HVAC");
+  });
+
+  it("saveSubsidiary is idempotent (upsert on id)", () => {
+    db.saveSubsidiary({ id: "acf-hvac", name: "Old Name", configJson: "{}", createdAt: "2026-01-01T00:00:00Z" });
+    db.saveSubsidiary({ id: "acf-hvac", name: "New Name", configJson: "{}", createdAt: "2026-01-01T00:00:00Z" });
+    const list = db.listSubsidiaries();
+    expect(list).toHaveLength(1);
+    expect(list[0].name).toBe("New Name");
+  });
+
+  it("listSubsidiaries returns empty array when none exist", () => {
+    expect(db.listSubsidiaries()).toEqual([]);
   });
 });

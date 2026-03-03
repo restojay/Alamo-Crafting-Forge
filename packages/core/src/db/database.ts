@@ -358,6 +358,30 @@ export class ServiceBotDatabase {
       .run(c.id, c.subsidiaryId, c.email, c.name, c.createdAt);
   }
 
+  // ── Subsidiaries ─────────────────────────────────────────────
+
+  saveSubsidiary(s: { id: string; name: string; configJson: string; createdAt: string }): void {
+    this.db
+      .prepare(
+        `INSERT INTO subsidiaries (id, name, config_json, created_at)
+         VALUES (?, ?, ?, ?)
+         ON CONFLICT(id) DO UPDATE SET name = excluded.name, config_json = excluded.config_json`,
+      )
+      .run(s.id, s.name, s.configJson, s.createdAt);
+  }
+
+  listSubsidiaries(): { id: string; name: string; configJson: string; createdAt: string }[] {
+    const rows = this.db
+      .prepare("SELECT id, name, config_json, created_at FROM subsidiaries ORDER BY name ASC")
+      .all() as Record<string, unknown>[];
+    return rows.map((r) => ({
+      id: r.id as string,
+      name: r.name as string,
+      configJson: r.config_json as string,
+      createdAt: r.created_at as string,
+    }));
+  }
+
   // ── Audit Log ────────────────────────────────────────────────
 
   saveAuditEntry(
