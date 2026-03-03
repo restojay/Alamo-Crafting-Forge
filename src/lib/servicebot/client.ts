@@ -25,6 +25,12 @@ export async function fetchSubsidiaries(): Promise<{ subsidiaries: { id: string;
   return res.json();
 }
 
+export async function fetchTicket(id: string): Promise<{ ticket: { id: string; subsidiaryId: string; subject: string; customerEmail: string; customerName: string; status: string; createdAt: string } }> {
+  const res = await fetch(`${BASE}/tickets/${id}`);
+  if (!res.ok) throw new Error(`Failed to fetch ticket: ${res.status}`);
+  return res.json();
+}
+
 export async function approveDraft(
   draftId: string,
   actor: string,
