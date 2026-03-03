@@ -25,7 +25,6 @@ export function TicketsTable() {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
     fetchTickets(filter || undefined)
       .then((data) => setTickets(data.tickets))
       .finally(() => setLoading(false));
