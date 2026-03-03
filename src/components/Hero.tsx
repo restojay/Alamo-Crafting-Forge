@@ -4,11 +4,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export function Hero() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(true);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setPrefersReducedMotion(mq.matches);
+    setMounted(true);
     const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
@@ -19,7 +21,7 @@ export function Hero() {
       data-testid="hero"
       className=""
       style={{
-        minHeight: "100vh",
+        minHeight: "100dvh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -43,8 +45,8 @@ export function Hero() {
         }}
       />
 
-      {/* Background video loop — only rendered when motion is allowed */}
-      {!prefersReducedMotion && (
+      {/* Background video loop — only rendered after mount + motion allowed */}
+      {mounted && !prefersReducedMotion && (
         <video
           autoPlay
           muted
