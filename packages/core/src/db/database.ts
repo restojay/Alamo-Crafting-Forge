@@ -11,6 +11,7 @@ import type {
   Contact,
   AuditEntry,
   WebhookAttempt,
+  Subsidiary,
 } from "./types";
 
 function loadMigrationSQL(filename: string): string {
@@ -360,7 +361,7 @@ export class ServiceBotDatabase {
 
   // ── Subsidiaries ─────────────────────────────────────────────
 
-  saveSubsidiary(s: { id: string; name: string; configJson: string; createdAt: string }): void {
+  saveSubsidiary(s: Subsidiary): void {
     this.db
       .prepare(
         `INSERT INTO subsidiaries (id, name, config_json, created_at)
@@ -370,16 +371,20 @@ export class ServiceBotDatabase {
       .run(s.id, s.name, s.configJson, s.createdAt);
   }
 
-  listSubsidiaries(): { id: string; name: string; configJson: string; createdAt: string }[] {
+  listSubsidiaries(): Subsidiary[] {
     const rows = this.db
       .prepare("SELECT id, name, config_json, created_at FROM subsidiaries ORDER BY name ASC")
       .all() as Record<string, unknown>[];
-    return rows.map((r) => ({
-      id: r.id as string,
-      name: r.name as string,
-      configJson: r.config_json as string,
-      createdAt: r.created_at as string,
-    }));
+    return rows.map((r) => this.mapSubsidiary(r));
+  }
+
+  private mapSubsidiary(row: Record<string, unknown>): Subsidiary {
+    return {
+      id: row.id as string,
+      name: row.name as string,
+      configJson: row.config_json as string,
+      createdAt: row.created_at as string,
+    };
   }
 
   // ── Audit Log ────────────────────────────────────────────────
