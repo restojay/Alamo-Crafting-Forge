@@ -5,11 +5,10 @@ import { approveDraft, rejectDraft } from "@/lib/servicebot/client";
 
 interface Props {
   draftId: string;
-  ticketEmail: string;
   onAction: () => void;
 }
 
-export function ApprovalActions({ draftId, ticketEmail, onAction }: Props) {
+export function ApprovalActions({ draftId, onAction }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showReject, setShowReject] = useState(false);
@@ -19,7 +18,7 @@ export function ApprovalActions({ draftId, ticketEmail, onAction }: Props) {
     setLoading(true);
     setError(null);
     try {
-      await approveDraft(draftId, "admin", ticketEmail);
+      await approveDraft(draftId, "admin");
       onAction();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Approve failed");

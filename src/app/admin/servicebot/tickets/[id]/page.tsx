@@ -57,7 +57,7 @@ export default function TicketDetailPage() {
       </div>
 
       <h2 className="mb-3 text-lg font-semibold">Draft Responses</h2>
-      <DraftsQueue ticketId={ticket.id} ticketEmail={ticket.customerEmail} />
+      <DraftsQueue ticketId={ticket.id} />
     </main>
   );
 }

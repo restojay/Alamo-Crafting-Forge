@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fetchDrafts } from "@/lib/servicebot/client";
 import { ApprovalActions } from "./ApprovalActions";
 
@@ -24,17 +24,17 @@ function statusBadge(draft: Draft) {
   return { label: "Pending", className: "bg-yellow-100 text-yellow-700" };
 }
 
-export function DraftsQueue({ ticketId, ticketEmail }: { ticketId: string; ticketEmail: string }) {
+export function DraftsQueue({ ticketId }: { ticketId: string }) {
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const reload = () => {
+  const reload = useCallback(() => {
     fetchDrafts(ticketId)
       .then((data) => setDrafts(data.drafts))
       .finally(() => setLoading(false));
-  };
+  }, [ticketId]);
 
-  useEffect(() => { reload(); }, [ticketId]);
+  useEffect(() => { reload(); }, [reload]);
 
   if (loading) return <p className="text-gray-500">Loading drafts...</p>;
   if (drafts.length === 0) return <p className="text-gray-500">No drafts.</p>;
@@ -53,7 +53,7 @@ export function DraftsQueue({ ticketId, ticketEmail }: { ticketId: string; ticke
             </div>
             <p className="mb-3 whitespace-pre-wrap text-sm">{d.body}</p>
             {!d.approved && !d.rejectedAt && (
-              <ApprovalActions draftId={d.id} ticketEmail={ticketEmail} onAction={reload} />
+              <ApprovalActions draftId={d.id} onAction={reload} />
             )}
             {d.rejectionReason && (
               <p className="mt-2 text-xs text-red-600">

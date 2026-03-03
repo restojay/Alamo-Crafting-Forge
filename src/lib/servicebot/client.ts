@@ -31,15 +31,11 @@ export async function fetchTicket(id: string): Promise<{ ticket: { id: string; s
   return res.json();
 }
 
-export async function approveDraft(
-  draftId: string,
-  actor: string,
-  ticketEmail: string,
-) {
+export async function approveDraft(draftId: string, actor: string) {
   const res = await fetch(`${BASE}/drafts/${draftId}/approve`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ actor, ticketEmail }),
+    body: JSON.stringify({ actor }),
   });
   if (!res.ok) throw new Error(`Failed to approve draft: ${res.status}`);
   return res.json();
