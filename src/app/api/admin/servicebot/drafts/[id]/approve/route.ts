@@ -1,13 +1,14 @@
 import { NextRequest } from "next/server";
-import { getServiceBotDb, getMailer } from "@/lib/servicebot/server";
+import { getServiceBotDb, getMailer, getSubsidiarySmtpConfig } from "@/lib/servicebot/server";
 import { sendApprovedDraft } from "@servicebot/core";
 import { jsonOk, jsonError } from "@/lib/servicebot/http";
 
 /**
  * POST /api/admin/servicebot/drafts/[id]/approve
  *
- * Approve a draft and trigger SMTP send.
- * Body: { actor: string, smtpConfig?: object, ticketEmail: string }
+ * Approve a draft. If the ticket's subsidiary has SMTP configured,
+ * sends via the mailer (dry-run or live depending on SMTP_LIVE env).
+ * Body: { actor: string, ticketEmail: string }
  */
 export async function POST(
   request: NextRequest,
@@ -16,18 +17,21 @@ export async function POST(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { actor, smtpConfig, ticketEmail } = body;
+    const { actor, ticketEmail } = body;
 
     if (!actor || !ticketEmail) {
       return jsonError("actor and ticketEmail are required", 400);
     }
 
     const db = getServiceBotDb();
-
-    // First approve the draft
     db.markDraftApproved(id, actor, new Date().toISOString());
 
-    // Then attempt to send if SMTP config is provided
+    const draft = db.getDraft(id);
+    if (!draft) return jsonError("Draft not found after approval", 500);
+
+    const ticket = db.getTicket(draft.ticketId);
+    const smtpConfig = ticket ? getSubsidiarySmtpConfig(ticket.subsidiaryId) : null;
+
     if (smtpConfig) {
       const mailer = getMailer();
       const result = await sendApprovedDraft({
@@ -41,7 +45,7 @@ export async function POST(
       return jsonOk({ approved: true, ...result });
     }
 
-    return jsonOk({ approved: true, sent: false });
+    return jsonOk({ approved: true, sent: false, reason: "no SMTP config for subsidiary" });
   } catch (err) {
     return jsonError(
       err instanceof Error ? err.message : "Internal error",

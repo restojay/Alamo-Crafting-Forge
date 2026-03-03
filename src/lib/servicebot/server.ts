@@ -47,3 +47,18 @@ export function getMailer(): OutboundMailer {
     },
   };
 }
+
+export function getSubsidiarySmtpConfig(
+  subsidiaryId: string,
+): NonNullable<SubsidiaryConfig["smtp"]> | null {
+  const db = getServiceBotDb();
+  const subsidiaries = db.listSubsidiaries();
+  const found = subsidiaries.find((s) => s.id === subsidiaryId);
+  if (!found) return null;
+  try {
+    const config = JSON.parse(found.configJson) as SubsidiaryConfig;
+    return config.smtp ?? null;
+  } catch {
+    return null;
+  }
+}
