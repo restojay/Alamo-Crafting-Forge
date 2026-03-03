@@ -3,28 +3,22 @@ import type { Brand } from "@/lib/brands";
 
 interface BrandCardHorizontalProps {
   brand: Brand;
-  index: number;
 }
 
-export function BrandCardHorizontal({ brand, index }: BrandCardHorizontalProps) {
+export function BrandCardHorizontal({ brand }: BrandCardHorizontalProps) {
   return (
     <article
       data-testid="brand-card"
-      className="brand-card"
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        height: "100%",
-      }}
+      className="brand-card brand-card-horizontal"
     >
-      {/* Image — left half */}
+      {/* Image — left half (stacks top on mobile) */}
       <div
+        className="brand-card-horizontal-image"
         style={{
           position: "relative",
           width: "100%",
           minHeight: "280px",
           overflow: "hidden",
-          borderRight: "1px solid var(--border)",
         }}
       >
         <div

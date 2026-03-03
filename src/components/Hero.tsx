@@ -1,8 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export function Hero() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
   return (
     <section
       id="hero"
@@ -25,7 +35,6 @@ export function Hero() {
         src="/hero.jpeg"
         alt=""
         fill
-        priority
         sizes="100vw"
         className="object-cover"
         style={{
@@ -34,26 +43,27 @@ export function Hero() {
         }}
       />
 
-      {/* Background video loop */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster="/hero.jpeg"
-        className="hero-video"
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          filter: "brightness(0.65) saturate(0.8)",
-          zIndex: 0,
-        }}
-      >
-        <source src="/hero-loop.mp4" type="video/mp4" />
-      </video>
+      {/* Background video loop — only rendered when motion is allowed */}
+      {!prefersReducedMotion && (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/hero.jpeg"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            filter: "brightness(0.65) saturate(0.8)",
+            zIndex: 0,
+          }}
+        >
+          <source src="/hero-loop.mp4" type="video/mp4" />
+        </video>
+      )}
 
       {/* Steel texture */}
       <div className="steel-texture" />
@@ -83,7 +93,7 @@ export function Hero() {
       >
         {/* Logo mark */}
         <div
-          className=""
+          className="hero-animate hero-animate-1"
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -110,7 +120,7 @@ export function Hero() {
 
         {/* Headline */}
         <h1
-          className=""
+          className="hero-animate hero-animate-2"
           style={{
             fontSize: "clamp(28px, 4vw, 52px)",
             fontWeight: 600,
@@ -125,7 +135,7 @@ export function Hero() {
 
         {/* Subline */}
         <p
-          className=""
+          className="hero-animate hero-animate-3"
           style={{
             fontFamily: "var(--font-geist-mono), monospace",
             fontSize: "clamp(12px, 1.2vw, 14px)",
@@ -139,7 +149,7 @@ export function Hero() {
         </p>
 
         <p
-          className=""
+          className="hero-animate hero-animate-4"
           style={{
             fontSize: "clamp(14px, 1.5vw, 17px)",
             lineHeight: 1.7,
@@ -154,7 +164,7 @@ export function Hero() {
 
         {/* Stats row */}
         <div
-          className=""
+          className="hero-animate hero-animate-5"
           style={{
             display: "flex",
             justifyContent: "center",
@@ -191,7 +201,7 @@ export function Hero() {
 
         {/* CTAs */}
         <div
-          className=""
+          className="hero-animate hero-animate-6"
           style={{
             display: "flex",
             gap: "16px",
@@ -230,7 +240,7 @@ export function Hero() {
 
       {/* Scroll indicator */}
       <div
-        className=""
+        className="scroll-indicator hero-animate hero-animate-7"
         style={{
           position: "absolute",
           bottom: "32px",

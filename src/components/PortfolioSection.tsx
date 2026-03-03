@@ -59,7 +59,7 @@ function SectorGroup({ brand }: { brand: Brand }) {
         </p>
       </div>
 
-      <BrandCardHorizontal brand={brand} index={0} />
+      <BrandCardHorizontal brand={brand} />
     </div>
   );
 }
@@ -153,9 +153,9 @@ export function PortfolioSection() {
                 gap: "24px",
               }}
             >
-              {precisionBrands.map((brand, i) => (
+              {precisionBrands.map((brand) => (
                 <div key={brand.id}>
-                  <BrandCard brand={brand} index={i} />
+                  <BrandCard brand={brand} />
                 </div>
               ))}
             </div>

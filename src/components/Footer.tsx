@@ -2,7 +2,7 @@
 
 import { Mail, MapPin, ArrowUpRight } from "lucide-react";
 
-const CURRENT_YEAR = 2026;
+const CURRENT_YEAR = new Date().getFullYear();
 
 const footerLinks = [
   { label: "Brands", href: "#portfolio" },

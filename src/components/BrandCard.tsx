@@ -3,10 +3,9 @@ import type { Brand } from "@/lib/brands";
 
 interface BrandCardProps {
   brand: Brand;
-  index: number;
 }
 
-export function BrandCard({ brand, index }: BrandCardProps) {
+export function BrandCard({ brand }: BrandCardProps) {
   return (
     <article
       data-testid="brand-card"
