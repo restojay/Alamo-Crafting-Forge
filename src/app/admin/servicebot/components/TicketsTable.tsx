@@ -77,7 +77,7 @@ export function TicketsTable() {
                   </Link>
                 </td>
                 <td className="py-2">{t.customerEmail}</td>
-                <td className="py-2 text-xs text-gray-500">{t.subsidiaryId}</td>
+                <td className="py-2 text-xs text-gray-500">{subsidiaries.find((s) => s.id === t.subsidiaryId)?.name ?? t.subsidiaryId}</td>
                 <td className="py-2 text-xs text-gray-500">{t.createdAt.slice(0, 10)}</td>
               </tr>
             ))}
