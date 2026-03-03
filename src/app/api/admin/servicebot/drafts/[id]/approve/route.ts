@@ -8,7 +8,8 @@ import { jsonOk, jsonError } from "@/lib/servicebot/http";
  *
  * Approve a draft. If the ticket's subsidiary has SMTP configured,
  * sends via the mailer (dry-run or live depending on SMTP_LIVE env).
- * Body: { actor: string, ticketEmail: string }
+ * Recipient is always sourced from the DB ticket record — never from client input.
+ * Body: { actor: string }
  */
 export async function POST(
   request: NextRequest,
@@ -17,10 +18,10 @@ export async function POST(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { actor, ticketEmail } = body;
+    const { actor } = body;
 
-    if (!actor || !ticketEmail) {
-      return jsonError("actor and ticketEmail are required", 400);
+    if (!actor) {
+      return jsonError("actor is required", 400);
     }
 
     const db = getServiceBotDb();
@@ -33,14 +34,14 @@ export async function POST(
     const ticket = db.getTicket(draft.ticketId);
     const smtpConfig = ticket ? getSubsidiarySmtpConfig(ticket.subsidiaryId) : null;
 
-    if (smtpConfig) {
+    if (smtpConfig && ticket) {
       const mailer = getMailer();
       const result = await sendApprovedDraft({
         draftId: id,
         db,
         mailer,
         smtpConfig,
-        ticketEmail,
+        ticketEmail: ticket.customerEmail,
         now: () => new Date().toISOString(),
       });
       return jsonOk({ approved: true, ...result });
