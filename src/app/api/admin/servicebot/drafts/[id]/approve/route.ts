@@ -24,10 +24,11 @@ export async function POST(
     }
 
     const db = getServiceBotDb();
-    db.markDraftApproved(id, actor, new Date().toISOString());
 
     const draft = db.getDraft(id);
-    if (!draft) return jsonError("Draft not found after approval", 500);
+    if (!draft) return jsonError("Draft not found", 404);
+
+    db.markDraftApproved(id, actor, new Date().toISOString());
 
     const ticket = db.getTicket(draft.ticketId);
     const smtpConfig = ticket ? getSubsidiarySmtpConfig(ticket.subsidiaryId) : null;
