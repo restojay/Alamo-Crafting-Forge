@@ -81,4 +81,15 @@ describe("registerClientFromConfig", () => {
     expect(state).toBeDefined();
     expect(JSON.parse(state!).name).toBe("Sunny Side HVAC");
   });
+
+  it("syncs registered client to subsidiaries table", async () => {
+    await registerClientFromConfig({
+      config: validConfig,
+      db,
+      now: () => new Date("2026-03-02T12:00:00Z"),
+    });
+    const subsidiaries = db.listSubsidiaries();
+    expect(subsidiaries).toHaveLength(1);
+    expect(subsidiaries[0].id).toBe(validConfig.id);
+  });
 });

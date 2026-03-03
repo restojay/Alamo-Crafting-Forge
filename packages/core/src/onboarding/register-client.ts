@@ -23,6 +23,14 @@ export async function registerClientFromConfig(
 
   const config = validation.config;
 
+  // Always upsert into subsidiaries table (idempotent — safe to call every registration)
+  input.db.saveSubsidiary({
+    id: config.id,
+    name: config.name,
+    configJson: JSON.stringify(config),
+    createdAt: input.now().toISOString(),
+  });
+
   // Check for existing registration (idempotent)
   const existing = input.db.getSyncState(`client:${config.id}`);
   if (existing) {
