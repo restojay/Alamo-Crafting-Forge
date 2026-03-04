@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ServiceBot runtime DB
+servicebot.db
+servicebot.db-shm
+servicebot.db-wal
