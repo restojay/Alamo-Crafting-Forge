@@ -63,7 +63,7 @@ export const brands: Brand[] = [
     image: "/brands/acf-dice.webp",
     blueprintMeta: ["Material: UV Resin", "Layer: 25μm", "Tolerance: ±0.05mm"],
     ctaLabel: "Visit Site",
-    ctaHref: "https://dice.alamocraftingforge.com",
+    ctaHref: "https://acfdice.com",
     sector: "artisanal-craft",
   },
   {
