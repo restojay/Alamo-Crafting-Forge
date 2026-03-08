@@ -1069,4 +1069,4 @@ git status
 - Task 4-6: Dashboard UI — subsidiary filter, ticket detail, SMTP mode badge
 - Task 7-9: SMTP nodemailer, dry-run gate, end-to-end smoke test
 
-**Out of scope for this plan:** Live Stripe, Redis/Postgres persistence, production SMTP for non-test subsidiaries, webhook retry UI.
+**Out of scope for this plan:** Redis/Postgres persistence, production SMTP for non-test subsidiaries, webhook retry UI.

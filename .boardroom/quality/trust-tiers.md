@@ -2,7 +2,8 @@
 
 | Agent | Tier | Consecutive Passes | Last Updated |
 |-|-|-|-|
-| CTO | T1 | 0 | 2026-03-03 |
+| CTO | T1 | 1 | 2026-03-08 |
 
 ## Notes
-- CTO first submission for this project. 3 rework iterations required (all fringe). Pipeline passed. Tier remains T1 pending external audit confirmation.
+- 2026-03-03: CTO first submission. 3 rework iterations (all fringe). Codex found 2 escapes (both resolved). Gemini unavailable.
+- 2026-03-08: Gemini audit completed. 5 findings, 0 confirmed (all disputed by CQO). CEO unconditional approval. Consecutive pass count incremented.

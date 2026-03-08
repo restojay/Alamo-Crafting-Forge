@@ -12,13 +12,13 @@
 | Peer Review 1 | CPO (cross-functional) | APPROVE | 1 iteration |
 | Peer Review 2 | QAE (same-dept) | APPROVE | 1 iteration |
 | CQO Gate | STE + CRV | APPROVE | 1 iteration |
-| Codex Audit | External | UNAVAILABLE (timeout) | — |
-| Gemini Audit | External | UNAVAILABLE (rate limit) | — |
-| CEO Review | Jay | **APPROVED** (conditional) | — |
+| Codex Audit | External | APPROVE (2 escapes, resolved) | 1 iteration |
+| Gemini Audit | External | APPROVE (5 findings, 0 confirmed) | — |
+| CEO Review | Jay | **APPROVED** (unconditional) | — |
 
 ## CEO Decision
 
-APPROVE — merge pending external audit re-run (Codex + Gemini).
+APPROVE — unconditional. Gemini gap closed 2026-03-08.
 
 ## Rework Summary
 
@@ -36,4 +36,16 @@ APPROVE — merge pending external audit re-run (Codex + Gemini).
 - Lint clean (all changed files)
 - Codex escapes: 2 confirmed, both resolved
 - Gemini: unavailable (rate limited both sessions)
-- Merge: **READY — all findings resolved. Merge pending CEO final call.**
+- Merge: **COMPLETE — merged to master. CEO unconditional approval 2026-03-08.**
+
+## Gemini Audit (2026-03-08)
+
+5 findings submitted, 0 confirmed by CQO:
+
+1. **Race condition on draft approval (Sev 3)** — DISPUTED. Theoretical for single-admin SQLite WAL context. sendApprovedDraft checks sentAt guard.
+2. **No rate limiting on login (Sev 2)** — DISPUTED. Internal admin tool. Rate limiting is infra/deployment concern. Cookie already has correct security flags.
+3. **Missing CAN-SPAM/GDPR headers (Sev 2)** — DISPUTED. Transactional support replies, not commercial email. Unsubscribe requirements inapplicable.
+4. **Audit log gaps (Sev 1)** — DISPUTED. Factually incorrect. approved_by column exists on drafts, audit_log table exists and is used.
+5. **SMTP badge only on landing (Sev 1)** — DISPUTED. UX preference, not defect.
+
+Gemini escapes: 0
