@@ -1,5 +1,5 @@
 export type TaskState = "new" | "in_progress" | "awaiting_response" | "done" | "escalated";
-export type TicketStatus = "open" | "closed";
+export type TicketStatus = "open" | "pending" | "resolved" | "closed";
 export type Urgency = "low" | "medium" | "high" | "critical";
 
 export interface Ticket {
@@ -13,6 +13,7 @@ export interface Ticket {
   assignedTo?: string;
   slaDeadline?: string;
   firstResponseAt?: string;
+  resolvedAt?: string;
   createdAt: string;
   updatedAt: string;
 }

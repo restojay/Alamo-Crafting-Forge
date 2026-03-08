@@ -7,6 +7,7 @@ import type {
   Ticket,
   Task,
   TaskState,
+  TicketStatus,
   Draft,
   Contact,
   AuditEntry,
@@ -61,6 +62,15 @@ export class ServiceBotDatabase {
     if (!applied) {
       this.db.exec(loadMigrationSQL("002_phase2_outbound_webhooks.sql"));
       this.db.prepare("INSERT INTO schema_migrations (version) VALUES (?)").run("002");
+    }
+
+    const applied003 = this.db
+      .prepare("SELECT 1 FROM schema_migrations WHERE version = ?")
+      .get("003") as { 1: number } | undefined;
+
+    if (!applied003) {
+      this.db.exec(loadMigrationSQL("003_phase3_lifecycle.sql"));
+      this.db.prepare("INSERT INTO schema_migrations (version) VALUES (?)").run("003");
     }
   }
 
@@ -140,9 +150,41 @@ export class ServiceBotDatabase {
       assignedTo: (row.assigned_to as string) ?? undefined,
       slaDeadline: (row.sla_deadline as string) ?? undefined,
       firstResponseAt: (row.first_response_at as string) ?? undefined,
+      resolvedAt: (row.resolved_at as string) ?? undefined,
       createdAt: row.created_at as string,
       updatedAt: row.updated_at as string,
     };
+  }
+
+  updateTicketStatus(id: string, status: TicketStatus, updatedAt: string): void {
+    this.db
+      .prepare("UPDATE tickets SET status = ?, updated_at = ? WHERE id = ?")
+      .run(status, updatedAt, id);
+    // Set resolved_at immutably — only on first transition to "resolved"
+    if (status === "resolved") {
+      this.db
+        .prepare("UPDATE tickets SET resolved_at = ? WHERE id = ? AND resolved_at IS NULL")
+        .run(updatedAt, id);
+    }
+    this.saveAuditEntry({
+      entityType: "ticket",
+      entityId: id,
+      action: "status_changed",
+      payloadJson: JSON.stringify({ status, updatedAt }),
+    });
+  }
+
+  getTicketsByStatus(status: TicketStatus, subsidiaryId?: string): Ticket[] {
+    if (subsidiaryId) {
+      const rows = this.db
+        .prepare("SELECT * FROM tickets WHERE status = ? AND subsidiary_id = ?")
+        .all(status, subsidiaryId) as Record<string, unknown>[];
+      return rows.map((r) => this.mapTicket(r));
+    }
+    const rows = this.db
+      .prepare("SELECT * FROM tickets WHERE status = ?")
+      .all(status) as Record<string, unknown>[];
+    return rows.map((r) => this.mapTicket(r));
   }
 
   // ── Tasks ────────────────────────────────────────────────────

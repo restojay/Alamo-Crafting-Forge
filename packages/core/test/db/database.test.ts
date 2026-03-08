@@ -286,3 +286,56 @@ describe("subsidiaries", () => {
     expect(db.listSubsidiaries()).toEqual([]);
   });
 });
+
+describe("ticket lifecycle", () => {
+  let db: ServiceBotDatabase;
+  beforeEach(() => {
+    db = new ServiceBotDatabase(join(tmpdir(), `test-${randomUUID()}.db`));
+    db.saveTicket(makeTicket({ id: "t1", status: "open" }));
+  });
+  afterEach(() => db.close());
+
+  it("updateTicketStatus changes status and updated_at", () => {
+    db.updateTicketStatus("t1", "pending", "2026-03-08T12:00:00Z");
+    const ticket = db.getTicket("t1");
+    expect(ticket?.status).toBe("pending");
+    expect(ticket?.updatedAt).toBe("2026-03-08T12:00:00Z");
+  });
+
+  it("updateTicketStatus to resolved records resolved_at immutably", () => {
+    db.updateTicketStatus("t1", "resolved", "2026-03-08T13:00:00Z");
+    const ticket = db.getTicket("t1");
+    expect(ticket?.status).toBe("resolved");
+    expect(ticket?.resolvedAt).toBe("2026-03-08T13:00:00Z");
+  });
+
+  it("resolved_at is not overwritten by subsequent updates", () => {
+    db.updateTicketStatus("t1", "resolved", "2026-03-08T13:00:00Z");
+    db.updateTicketStatus("t1", "closed", "2026-03-08T15:00:00Z");
+    const ticket = db.getTicket("t1");
+    expect(ticket?.status).toBe("closed");
+    expect(ticket?.resolvedAt).toBe("2026-03-08T13:00:00Z"); // immutable
+  });
+
+  it("updateTicketStatus to closed records timestamp", () => {
+    db.updateTicketStatus("t1", "closed", "2026-03-08T14:00:00Z");
+    const ticket = db.getTicket("t1");
+    expect(ticket?.status).toBe("closed");
+  });
+
+  it("getOpenTickets excludes resolved and closed tickets", () => {
+    db.saveTicket(makeTicket({ id: "t2", status: "open", emailId: "email-2" }));
+    db.updateTicketStatus("t1", "resolved", new Date().toISOString());
+    const open = db.getOpenTickets();
+    expect(open).toHaveLength(1);
+    expect(open[0].id).toBe("t2");
+  });
+
+  it("getTicketsByStatus returns filtered list", () => {
+    db.saveTicket(makeTicket({ id: "t2", status: "open", emailId: "email-2" }));
+    db.updateTicketStatus("t1", "resolved", new Date().toISOString());
+    const resolved = db.getTicketsByStatus("resolved");
+    expect(resolved).toHaveLength(1);
+    expect(resolved[0].id).toBe("t1");
+  });
+});
