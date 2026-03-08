@@ -1,20 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+const noopSubscribe = () => () => {};
+
+function subscribeToMotionPref(callback: () => void) {
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener("change", callback);
+  return () => mq.removeEventListener("change", callback);
+}
+
+function getMotionPref() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 export function Hero() {
-  const [mounted, setMounted] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(true);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mq.matches);
-    setMounted(true);
-    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
+  const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
+  const prefersReducedMotion = useSyncExternalStore(
+    subscribeToMotionPref,
+    getMotionPref,
+    () => true,
+  );
   return (
     <section
       id="hero"

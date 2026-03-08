@@ -3,7 +3,7 @@ import type { ServiceBotDatabase } from "../db/database";
 import type { WebhookAttempt } from "../db/types";
 import type { WebhookEvent } from "../notifications/types";
 import { signPayload } from "./signer";
-import { nextDelayMs, MAX_ATTEMPTS } from "./retry-policy";
+import { nextDelayMs } from "./retry-policy";
 
 export interface WebhookConfig {
   event: WebhookEvent;

@@ -47,10 +47,8 @@ function makeRawEmail(overrides: Partial<RawEmail> = {}): RawEmail {
 }
 
 function makeMockClaude(): ClaudeClient {
-  let callCount = 0;
   return {
     complete: vi.fn().mockImplementation(async (systemPrompt: string) => {
-      callCount++;
       // First call = classify, second = extract, third = draft
       if (systemPrompt.includes("triage agent")) {
         return JSON.stringify({

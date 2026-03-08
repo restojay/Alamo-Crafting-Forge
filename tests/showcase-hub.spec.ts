@@ -53,7 +53,6 @@ test.describe("ACF Showcase Hub", () => {
     }
 
     // Verify at least one brand CTA received focus at some point
-    const focused = page.locator("[data-testid='brand-card'] a:focus");
     // Tab through the page and check CTAs are focusable
     for (let i = 0; i < 20; i++) {
       await page.keyboard.press("Tab");

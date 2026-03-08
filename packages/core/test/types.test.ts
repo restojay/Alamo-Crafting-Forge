@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import type { SubsidiaryConfig } from "../src/config/types.js";
-import type { TaskState, Ticket, Task, Draft, Contact, AuditEntry, TicketStatus, Urgency } from "../src/db/types.js";
+import type { TaskState, Ticket, Draft } from "../src/db/types.js";
 
 describe("config types", () => {
   it("SubsidiaryConfig has all required fields", () => {

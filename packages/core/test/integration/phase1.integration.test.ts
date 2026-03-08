@@ -14,7 +14,6 @@ import type {
   RawEmail,
 } from "../../src/index.js";
 import { processNewEmails } from "../../../../service/src/index.js";
-import type { ProcessNewEmailsDeps } from "../../../../service/src/index.js";
 
 // ── Fixture Builders ────────────────────────────────────────────
 
@@ -319,10 +318,8 @@ describe("ServiceBot Phase 1 E2E", () => {
       body: "Click here to claim your prize. Limited time offer.",
     });
 
-    let callCount = 0;
     const sequentialClaude: ClaudeClient = {
       complete: vi.fn().mockImplementation(async (systemPrompt: string) => {
-        callCount++;
         if (systemPrompt.includes("triage agent")) {
           return JSON.stringify({
             category: "service-call",

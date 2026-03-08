@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { getNextRun, isDue, generateRecurringTasks } from "../../src/tasks/recurring.js";
 import { ServiceBotDatabase } from "../../src/db/database.js";
 import type { SubsidiaryConfig } from "../../src/config/types.js";

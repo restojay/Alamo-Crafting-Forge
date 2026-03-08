@@ -1,6 +1,6 @@
 import type { ServiceBotDatabase } from "../db/database";
 import { validateConfig } from "../config/schema";
-import type { SubsidiaryConfig } from "../config/types";
+
 
 export interface RegisterClientInput {
   config: unknown;

@@ -7,6 +7,7 @@ vi.mock("@servicebot/core", async (importOriginal) => {
   const orig = await importOriginal<typeof import("@servicebot/core")>();
   return {
     ...orig,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     createMailer: (_factory: unknown): OutboundMailer => {
       capturedBaseSend = vi.fn().mockResolvedValue(undefined);
       return { send: capturedBaseSend };

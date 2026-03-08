@@ -84,7 +84,7 @@ describe("validateConfig", () => {
 
   it("rejects config missing id", () => {
     const data = validConfigData();
-    delete (data as any).id;
+    delete (data as Record<string, unknown>).id;
     const result = validateConfig(data);
     expect(result.valid).toBe(false);
     if (!result.valid) {
@@ -94,7 +94,7 @@ describe("validateConfig", () => {
 
   it("rejects config missing entire email block", () => {
     const data = validConfigData();
-    delete (data as any).email;
+    delete (data as Record<string, unknown>).email;
     const result = validateConfig(data);
     expect(result.valid).toBe(false);
     if (!result.valid) {
@@ -104,7 +104,7 @@ describe("validateConfig", () => {
 
   it("rejects config missing operations block", () => {
     const data = validConfigData();
-    delete (data as any).operations;
+    delete (data as Record<string, unknown>).operations;
     const result = validateConfig(data);
     expect(result.valid).toBe(false);
     if (!result.valid) {
@@ -154,7 +154,7 @@ describe("validateConfig", () => {
 
   it("rejects faq items that are strings instead of objects", () => {
     const data = validConfigData();
-    (data.agent as any).faq = ["What are your hours?"];
+    (data.agent as Record<string, unknown>).faq = ["What are your hours?"];
     const result = validateConfig(data);
     expect(result.valid).toBe(false);
     if (!result.valid) {
@@ -164,7 +164,7 @@ describe("validateConfig", () => {
 
   it("rejects faq objects missing the answer field", () => {
     const data = validConfigData();
-    (data.agent as any).faq = [{ question: "Hours?" }];
+    (data.agent as Record<string, unknown>).faq = [{ question: "Hours?" }];
     const result = validateConfig(data);
     expect(result.valid).toBe(false);
   });
@@ -173,14 +173,14 @@ describe("validateConfig", () => {
 
   it("validates slaOverrides values must be numbers", () => {
     const data = validConfigData();
-    (data.operations as any).slaOverrides = { booking: "fast" };
+    (data.operations as Record<string, unknown>).slaOverrides = { booking: "fast" };
     const result = validateConfig(data);
     expect(result.valid).toBe(false);
   });
 
   it("validates taskRoutingDefaults values must be strings", () => {
     const data = validConfigData();
-    (data.operations as any).taskRoutingDefaults = { billing: 42 };
+    (data.operations as Record<string, unknown>).taskRoutingDefaults = { billing: 42 };
     const result = validateConfig(data);
     expect(result.valid).toBe(false);
   });
@@ -198,7 +198,7 @@ describe("validateConfig", () => {
 
   it("rejects webhooks with invalid URLs", () => {
     const data = validConfigData();
-    (data as any).webhooks = [
+    (data as Record<string, unknown>).webhooks = [
       { event: "booking.created", url: "not-a-url" },
     ];
     const result = validateConfig(data);
@@ -207,7 +207,7 @@ describe("validateConfig", () => {
 
   it("accepts config with webhooks omitted entirely", () => {
     const data = validConfigData();
-    delete (data as any).webhooks;
+    delete (data as Record<string, unknown>).webhooks;
     const result = validateConfig(data);
     expect(result.valid).toBe(true);
     if (result.valid) {

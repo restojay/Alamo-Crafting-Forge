@@ -67,6 +67,7 @@ export const subsidiaryConfigSchema = z.object({
 type _SchemaCheck = z.infer<typeof subsidiaryConfigSchema> extends SubsidiaryConfig
   ? true
   : never;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _: _SchemaCheck = true;
 
 export type ValidResult = { valid: true; config: SubsidiaryConfig };
