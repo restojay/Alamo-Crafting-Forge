@@ -41,6 +41,16 @@ export async function approveDraft(draftId: string, actor: string) {
   return res.json();
 }
 
+export async function updateTicketStatus(ticketId: string, status: string, actor: string) {
+  const res = await fetch(`${BASE}/tickets/${ticketId}/status`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status, actor }),
+  });
+  if (!res.ok) throw new Error(`Failed to update ticket status: ${res.status}`);
+  return res.json();
+}
+
 export async function rejectDraft(draftId: string, reason: string) {
   const res = await fetch(`${BASE}/drafts/${draftId}/reject`, {
     method: "POST",
