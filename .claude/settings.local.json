@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash \"/mnt/c/Users/Jay/OneDrive/Desktop/Agents/scripts/check-versions.sh\")",
+      "WebFetch(domain:100.126.210.51)",
+      "Bash(curl -s --max-time 10 http://100.126.210.51:3000)",
+      "Bash(pnpm dev:*)",
+      "Bash(npx next dev:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm install:*)",
+      "Bash(export:*)",
+      "Bash(pnpm --version:*)"
+    ]
+  }
+}
