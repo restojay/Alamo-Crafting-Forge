@@ -64,11 +64,11 @@ export function Footer() {
                 <span>San Antonio, TX</span>
               </div>
               <a
-                href="mailto:contact@alamocraftingforge.com"
+                href="mailto:support@alamocraftingforge.com"
                 className="footer-email"
               >
                 <Mail size={12} />
-                <span>contact@alamocraftingforge.com</span>
+                <span>support@alamocraftingforge.com</span>
               </a>
             </div>
           </div>
@@ -97,7 +97,7 @@ export function Footer() {
               Work With Us
             </span>
             <a
-              href="mailto:contact@alamocraftingforge.com"
+              href="mailto:support@alamocraftingforge.com"
               className="btn-outline"
             >
               Get in Touch
