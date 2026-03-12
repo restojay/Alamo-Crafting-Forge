@@ -388,4 +388,26 @@
   .hero-video {
     display: none;
   }
+
+  /* --- Contact Form Input --- */
+  .contact-input {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text-primary);
+    background: var(--base-raised);
+    border: 1px solid var(--border-strong);
+    border-radius: 2px;
+    transition: border-color 0.3s ease;
+  }
+
+  .contact-input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .contact-input::placeholder {
+    color: var(--text-tertiary);
+  }
 }
