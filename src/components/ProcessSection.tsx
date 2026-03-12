@@ -2,55 +2,27 @@
 
 import { motion } from "framer-motion";
 
-/* Compact SVG icons */
-function IconSLA() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5">
-      <path d="M12 2L2 7l10 5 10-5-10-5z" />
-      <path d="M2 17l10 5 10-5" />
-      <path d="M2 12l10 5 10-5" />
-    </svg>
-  );
-}
-
-function IconFDM() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5">
-      <rect x="4" y="4" width="16" height="16" rx="1" />
-      <path d="M9 4v16" />
-      <path d="M15 4v16" />
-      <path d="M4 9h16" />
-      <path d="M4 15h16" />
-    </svg>
-  );
-}
-
-function IconCAD() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5">
-      <path d="M12 19l7-7 3 3-7 7-3-3z" />
-      <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
-      <path d="M2 2l7.586 7.586" />
-      <circle cx="11" cy="11" r="2" />
-    </svg>
-  );
-}
-
-function IconWeb() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5">
-      <path d="M16 18l6-6-6-6" />
-      <path d="M8 6l-6 6 6 6" />
-      <path d="M14.5 4l-5 16" />
-    </svg>
-  );
-}
-
 const capabilities = [
-  { icon: IconSLA, label: "SLA Printing", spec: "25μm · Formlabs 4B" },
-  { icon: IconFDM, label: "FDM Manufacturing", spec: "Multi-material · Bambu P1S" },
-  { icon: IconCAD, label: "CAD Design", spec: "Parametric · Fusion 360" },
-  { icon: IconWeb, label: "Web Development", spec: "Full-stack · Next.js + Vercel" },
+  {
+    label: "SLA Printing",
+    spec: "25μm · Formlabs 4B",
+    description: "Ultra-high-resolution resin printing for miniatures, dice masters, and precision parts.",
+  },
+  {
+    label: "FDM Manufacturing",
+    spec: "Multi-material · Bambu P1S",
+    description: "Carbon-fiber PETG and multi-material printing for functional, structural components.",
+  },
+  {
+    label: "CAD Design",
+    spec: "Parametric · Fusion 360",
+    description: "Parametric modeling with dimensional tolerances, fitment validation, and export to any format.",
+  },
+  {
+    label: "Web Development",
+    spec: "Full-stack · Next.js + Vercel",
+    description: "Custom websites built with modern frameworks, deployed on edge infrastructure.",
+  },
 ];
 
 export function ProcessSection() {
@@ -59,7 +31,7 @@ export function ProcessSection() {
       id="capabilities"
       className="section-divider"
       style={{
-        padding: "clamp(40px, 5vw, 64px) clamp(24px, 4vw, 48px)",
+        padding: "clamp(60px, 8vw, 100px) clamp(24px, 4vw, 48px)",
         position: "relative",
         background: "var(--base)",
       }}
@@ -74,11 +46,26 @@ export function ProcessSection() {
           zIndex: 2,
         }}
       >
-        {/* Inline capability strip */}
+        <div style={{ marginBottom: "clamp(32px, 4vw, 48px)" }}>
+          <span className="spec-label" style={{ display: "block", marginBottom: "16px" }}>
+            Capabilities
+          </span>
+          <h2
+            style={{
+              fontSize: "clamp(22px, 2.5vw, 32px)",
+              fontWeight: 600,
+              letterSpacing: "-0.02em",
+              color: "var(--text-primary)",
+            }}
+          >
+            What We Build With
+          </h2>
+        </div>
+
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))",
             gap: "1px",
             background: "var(--border)",
             border: "1px solid var(--border)",
@@ -87,59 +74,61 @@ export function ProcessSection() {
           {capabilities.map((cap, i) => (
             <motion.div
               key={cap.label}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
               style={{
                 background: "var(--base)",
-                padding: "clamp(16px, 2vw, 24px)",
+                padding: "clamp(24px, 3vw, 36px)",
                 display: "flex",
-                alignItems: "center",
-                gap: "14px",
+                flexDirection: "column",
+                gap: "12px",
               }}
             >
-              {/* Icon */}
               <div
                 style={{
-                  width: "32px",
-                  height: "32px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  border: "1px solid var(--border-strong)",
-                  borderRadius: "2px",
-                  background: "var(--accent-subtle)",
-                  flexShrink: 0,
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  fontSize: "10px",
+                  letterSpacing: "0.08em",
+                  color: "var(--accent)",
+                  textTransform: "uppercase",
                 }}
               >
-                <cap.icon />
+                {String(i + 1).padStart(2, "0")}
               </div>
-
-              {/* Label + spec */}
-              <div>
-                <div
-                  style={{
-                    fontSize: "13px",
-                    fontWeight: 500,
-                    color: "var(--text-primary)",
-                    letterSpacing: "0.01em",
-                  }}
-                >
-                  {cap.label}
-                </div>
-                <div
-                  style={{
-                    fontFamily: "var(--font-geist-mono), monospace",
-                    fontSize: "10px",
-                    color: "var(--text-tertiary)",
-                    letterSpacing: "0.04em",
-                    marginTop: "2px",
-                  }}
-                >
-                  {cap.spec}
-                </div>
-              </div>
+              <h3
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 600,
+                  color: "var(--text-primary)",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                {cap.label}
+              </h3>
+              <p
+                style={{
+                  fontSize: "13px",
+                  lineHeight: 1.6,
+                  color: "var(--text-secondary)",
+                }}
+              >
+                {cap.description}
+              </p>
+              <span
+                style={{
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  fontSize: "10px",
+                  letterSpacing: "0.04em",
+                  color: "var(--text-tertiary)",
+                  marginTop: "auto",
+                  paddingTop: "8px",
+                  borderTop: "1px solid var(--border)",
+                }}
+              >
+                {cap.spec}
+              </span>
             </motion.div>
           ))}
         </div>
