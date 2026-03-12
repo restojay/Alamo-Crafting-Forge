@@ -17,12 +17,10 @@ export function AboutSection() {
           margin: "0 auto",
           position: "relative",
           zIndex: 2,
+          textAlign: "center",
         }}
       >
-        <span
-          className="spec-label"
-          style={{ display: "block", textAlign: "center", marginBottom: "16px" }}
-        >
+        <span className="spec-label" style={{ display: "block", marginBottom: "16px" }}>
           About
         </span>
 
@@ -31,7 +29,6 @@ export function AboutSection() {
             fontSize: "clamp(22px, 2.5vw, 32px)",
             fontWeight: 600,
             letterSpacing: "-0.02em",
-            textAlign: "center",
             color: "var(--text-primary)",
             marginBottom: "24px",
           }}
@@ -44,8 +41,8 @@ export function AboutSection() {
             fontSize: "15px",
             lineHeight: 1.8,
             color: "var(--text-secondary)",
-            textAlign: "center",
             letterSpacing: "0.01em",
+            marginBottom: "32px",
           }}
         >
           Alamo Crafting Forge is a San Antonio-based manufacturing and design
@@ -54,6 +51,13 @@ export function AboutSection() {
           own identity, all held to the same engineering standard. From resin
           to code, everything we ship is designed, tested, and made to spec.
         </p>
+
+        <a href="/about" className="btn-outline">
+          Learn More About ACF
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M7 17L17 7M17 7H7M17 7V17" />
+          </svg>
+        </a>
       </div>
     </section>
   );
