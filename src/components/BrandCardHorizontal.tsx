@@ -116,13 +116,11 @@ export function BrandCardHorizontal({ brand }: BrandCardHorizontalProps) {
         </div>
 
         <a
-          href={brand.ctaHref}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={`/brands/${brand.slug}`}
           className="btn-accent"
           style={{ fontSize: "12px", padding: "8px 20px", alignSelf: "flex-start" }}
         >
-          {brand.ctaLabel}
+          Learn More
           <svg
             width="12"
             height="12"
