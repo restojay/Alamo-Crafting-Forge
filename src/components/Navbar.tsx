@@ -5,9 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { label: "Brands", href: "#portfolio" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Brands", href: "/#portfolio" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Navbar() {
@@ -38,7 +38,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
         {/* Logo wordmark */}
         <a
-          href="#hero"
+          href="/"
           className="flex items-center gap-3 group"
           style={{ textDecoration: "none" }}
         >
