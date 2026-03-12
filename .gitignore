@@ -44,3 +44,4 @@ next-env.d.ts
 servicebot.db
 servicebot.db-shm
 servicebot.db-wal
+.worktrees/
