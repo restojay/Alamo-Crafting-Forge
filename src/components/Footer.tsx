@@ -5,9 +5,9 @@ import { Mail, MapPin, ArrowUpRight } from "lucide-react";
 const CURRENT_YEAR = new Date().getFullYear();
 
 const footerLinks = [
-  { label: "Brands", href: "#portfolio" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Brands", href: "/#portfolio" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Footer() {
@@ -97,7 +97,7 @@ export function Footer() {
               Work With Us
             </span>
             <a
-              href="mailto:support@alamocraftingforge.com"
+              href="/contact"
               className="btn-outline"
             >
               Get in Touch
