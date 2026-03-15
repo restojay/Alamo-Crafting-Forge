@@ -5,6 +5,7 @@ import { createEventLog, type EventLog } from "./event-log.js";
 import { createApprovals, type Approvals } from "./approvals.js";
 import { createSessions, type Sessions } from "./sessions.js";
 import { loadOrCreateToken, validateToken } from "./auth.js";
+import { createDeliveryLoop } from "./delivery.js";
 import type { QaEventType } from "@openclaw/protocol-qa";
 
 const MAX_BODY = 1024 * 1024;
@@ -210,6 +211,13 @@ export async function createHub(opts: HubOptions): Promise<Hub> {
 
     server.listen(port, "127.0.0.1", () => {
       reaperInterval = setInterval(() => sessions.reapDead(120), 60_000);
+
+      // Start delivery loop if config is available
+      if (opts.configPath) {
+        const logFile = opts.logFile ?? resolve(opts.dbPath, "..", "..", ".boardroom", "telegram-log.md");
+        const loop = createDeliveryLoop(approvals, db, opts.configPath, logFile);
+        deliveryStop = loop.startInterval(30_000).stop;
+      }
 
       resolvePromise({
         token,
