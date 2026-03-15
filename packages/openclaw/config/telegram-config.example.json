@@ -1,0 +1,13 @@
+{
+  "bot_token": "YOUR_BOT_TOKEN",
+  "chat_id": "YOUR_CHAT_ID",
+  "ceo_user_id": "YOUR_USER_ID",
+  "hub_port": 7700,
+  "topics": {
+    "briefings": 0,
+    "chat": 0,
+    "actions": 0,
+    "Anvil": 0,
+    "Launch Control": 0
+  }
+}
