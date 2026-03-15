@@ -8,3 +8,4 @@ export {
   resolveProjectFolder,
   resolveProjectName,
 } from "./types.js";
+export { createLogger, type LogFn } from "./logger.js";
