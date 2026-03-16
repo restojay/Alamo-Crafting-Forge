@@ -66,9 +66,8 @@ function SectorGroup({ brand }: { brand: Brand }) {
 
 export function PortfolioSection() {
   const precisionBrands = brands.filter((b) => b.sector === "precision-manufacturing");
-  const bottomBrands = brands.filter(
-    (b) => b.sector === "artisanal-craft" || b.sector === "digital-systems"
-  );
+  const artisanalBrands = brands.filter((b) => b.sector === "artisanal-craft");
+  const digitalBrands = brands.filter((b) => b.sector === "digital-systems");
 
   return (
     <section
@@ -161,8 +160,73 @@ export function PortfolioSection() {
             </div>
           </div>
 
-          {/* Artisanal Craft + Digital Systems — horizontal cards */}
-          {bottomBrands.map((brand) => (
+          {/* Artisanal Craft — 2 brands side by side */}
+          <div data-testid="sector-group">
+            <div
+              style={{
+                width: "100%",
+                height: "1px",
+                background: "var(--border)",
+                marginBottom: "clamp(48px, 6vw, 80px)",
+                position: "relative",
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  width: "40px",
+                  height: "1px",
+                  background: "var(--accent)",
+                  opacity: 0.5,
+                }}
+              />
+            </div>
+
+            <div style={{ marginBottom: "24px" }}>
+              <span
+                style={{
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  fontSize: "clamp(14px, 1.5vw, 18px)",
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  color: "var(--accent)",
+                  fontWeight: 600,
+                }}
+              >
+                {sectorMeta["artisanal-craft"].label}
+              </span>
+              <p
+                style={{
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  fontSize: "13px",
+                  color: "var(--text-tertiary)",
+                  marginTop: "8px",
+                  letterSpacing: "0.02em",
+                }}
+              >
+                {sectorMeta["artisanal-craft"].description}
+              </p>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 420px), 1fr))",
+                gap: "24px",
+              }}
+            >
+              {artisanalBrands.map((brand) => (
+                <div key={brand.id}>
+                  <BrandCard brand={brand} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Digital Systems — horizontal cards */}
+          {digitalBrands.map((brand) => (
             <SectorGroup key={brand.id} brand={brand} />
           ))}
         </div>

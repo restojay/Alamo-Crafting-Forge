@@ -28,11 +28,11 @@ export interface SectorMeta {
 export const sectorMeta: Record<Sector, SectorMeta> = {
   "precision-manufacturing": {
     label: "Precision Manufacturing",
-    description: "FDM and SLA printing for functional parts, miniatures, and accessories.",
+    description: "FDM and SLA printing for functional parts, dental models, and accessories.",
   },
   "artisanal-craft": {
     label: "Artisanal Craft",
-    description: "Collector-grade resin dice engineered for balance and beauty.",
+    description: "Handcrafted miniatures, terrain, and collector-grade resin dice.",
   },
   "digital-systems": {
     label: "Digital Systems",
@@ -70,6 +70,34 @@ export const brands: Brand[] = [
     sector: "precision-manufacturing",
   },
   {
+    id: "acf-dental",
+    slug: "acf-dental",
+    name: "ACF Dental",
+    tagline: "Next-Day Dental Models",
+    description: "Precision 3D printed dental models for San Antonio dental offices — next-day turnaround, local delivery.",
+    longDescription:
+      "ACF Dental produces clinical-grade 3D printed dental models using Formlabs Form 4B resin printers calibrated for micron-level dimensional accuracy. We serve San Antonio dental practices with diagnostic models, orthodontic models, and die models — all printed, QC-inspected, and hand-delivered next day via local courier. HIPAA compliant, TSBDE registered.",
+    image: "/brands/acf-dental.png",
+    blueprintMeta: ["Material: Dental Resin", "Layer: 50μm", "Delivery: Next-Day"],
+    processSteps: [
+      {
+        title: "Scan Upload",
+        description: "Dentists upload intraoral scans (STL, PLY, OBJ) through our portal.",
+      },
+      {
+        title: "SLA Printing",
+        description: "Formlabs 4B at 50μm in dental-grade resin for clinical accuracy.",
+      },
+      {
+        title: "QC & Delivery",
+        description: "Multi-point inspection, then same-day or next-day courier to your office.",
+      },
+    ],
+    ctaLabel: "Visit Site",
+    ctaHref: "https://dental.alamocraftingforge.com",
+    sector: "precision-manufacturing",
+  },
+  {
     id: "realmforge",
     slug: "realmforge",
     name: "Realmforge",
@@ -95,7 +123,7 @@ export const brands: Brand[] = [
     ],
     ctaLabel: "Visit Site",
     ctaHref: "https://www.ebay.com/str/realmforge",
-    sector: "precision-manufacturing",
+    sector: "artisanal-craft",
   },
   {
     id: "acf-dice",
