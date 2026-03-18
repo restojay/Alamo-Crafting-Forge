@@ -45,3 +45,6 @@ servicebot.db
 servicebot.db-shm
 servicebot.db-wal
 .worktrees/
+
+# Sensitive files
+gptaccess.txt
